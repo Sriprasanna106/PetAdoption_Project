@@ -1,0 +1,124 @@
+﻿@page "/pets/edit"
+@using Microsoft.EntityFrameworkCore
+@using PetAdoption_Project.Domain
+@inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Pet</h2>
+<hr />
+@if (Pet is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Pet" OnValidSubmit="UpdatePet" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="Pet.Id" value="@Pet.Id" />
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <InputText id="name" @bind-Value="Pet.Name" class="form-control" />
+                    <ValidationMessage For="() => Pet.Name" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="ageid" class="form-label">AgeId:</label>
+                    <InputNumber id="ageid" @bind-Value="Pet.AgeId" class="form-control" />
+                    <ValidationMessage For="() => Pet.AgeId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="breedid" class="form-label">BreedId:</label>
+                    <InputNumber id="breedid" @bind-Value="Pet.BreedId" class="form-control" />
+                    <ValidationMessage For="() => Pet.BreedId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="colourid" class="form-label">ColourId:</label>
+                    <InputNumber id="colourid" @bind-Value="Pet.ColourId" class="form-control" />
+                    <ValidationMessage For="() => Pet.ColourId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="datecreated" class="form-label">DateCreated:</label>
+                    <InputDate id="datecreated" @bind-Value="Pet.DateCreated" class="form-control" />
+                    <ValidationMessage For="() => Pet.DateCreated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dateupdated" class="form-label">DateUpdated:</label>
+                    <InputDate id="dateupdated" @bind-Value="Pet.DateUpdated" class="form-control" />
+                    <ValidationMessage For="() => Pet.DateUpdated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="createdby" class="form-label">CreatedBy:</label>
+                    <InputText id="createdby" @bind-Value="Pet.CreatedBy" class="form-control" />
+                    <ValidationMessage For="() => Pet.CreatedBy" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="updatedby" class="form-label">UpdatedBy:</label>
+                    <InputText id="updatedby" @bind-Value="Pet.UpdatedBy" class="form-control" />
+                    <ValidationMessage For="() => Pet.UpdatedBy" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/pets">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Pet? Pet { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Pet ??= await context.Pet.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Pet is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdatePet()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Pet!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!PetExists(Pet!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/pets");
+    }
+
+    private bool PetExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Pet.Any(e => e.Id == id);
+    }
+}

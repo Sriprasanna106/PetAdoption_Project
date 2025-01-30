@@ -1,0 +1,109 @@
+﻿@page "/ages/edit"
+@using Microsoft.EntityFrameworkCore
+@using PetAdoption_Project.Domain
+@inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Age</h2>
+<hr />
+@if (Age is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Age" OnValidSubmit="UpdateAge" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="Age.Id" value="@Age.Id" />
+                <div class="mb-3">
+                    <label for="age" class="form-label">age:</label>
+                    <InputNumber id="age" @bind-Value="Age.age" class="form-control" />
+                    <ValidationMessage For="() => Age.age" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="datecreated" class="form-label">DateCreated:</label>
+                    <InputDate id="datecreated" @bind-Value="Age.DateCreated" class="form-control" />
+                    <ValidationMessage For="() => Age.DateCreated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dateupdated" class="form-label">DateUpdated:</label>
+                    <InputDate id="dateupdated" @bind-Value="Age.DateUpdated" class="form-control" />
+                    <ValidationMessage For="() => Age.DateUpdated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="createdby" class="form-label">CreatedBy:</label>
+                    <InputText id="createdby" @bind-Value="Age.CreatedBy" class="form-control" />
+                    <ValidationMessage For="() => Age.CreatedBy" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="updatedby" class="form-label">UpdatedBy:</label>
+                    <InputText id="updatedby" @bind-Value="Age.UpdatedBy" class="form-control" />
+                    <ValidationMessage For="() => Age.UpdatedBy" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/ages">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Age? Age { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Age ??= await context.Age.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Age is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateAge()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Age!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!AgeExists(Age!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/ages");
+    }
+
+    private bool AgeExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Age.Any(e => e.Id == id);
+    }
+}

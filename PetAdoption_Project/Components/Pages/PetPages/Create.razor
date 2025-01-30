@@ -1,0 +1,79 @@
+﻿@page "/pets/create"
+@using Microsoft.EntityFrameworkCore
+@using PetAdoption_Project.Domain
+@inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>Pet</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Pet" OnValidSubmit="AddPet" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label> 
+                <InputText id="name" @bind-Value="Pet.Name" class="form-control" /> 
+                <ValidationMessage For="() => Pet.Name" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="ageid" class="form-label">AgeId:</label> 
+                <InputNumber id="ageid" @bind-Value="Pet.AgeId" class="form-control" /> 
+                <ValidationMessage For="() => Pet.AgeId" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="breedid" class="form-label">BreedId:</label> 
+                <InputNumber id="breedid" @bind-Value="Pet.BreedId" class="form-control" /> 
+                <ValidationMessage For="() => Pet.BreedId" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="colourid" class="form-label">ColourId:</label> 
+                <InputNumber id="colourid" @bind-Value="Pet.ColourId" class="form-control" /> 
+                <ValidationMessage For="() => Pet.ColourId" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="datecreated" class="form-label">DateCreated:</label> 
+                <InputDate id="datecreated" @bind-Value="Pet.DateCreated" class="form-control" /> 
+                <ValidationMessage For="() => Pet.DateCreated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="dateupdated" class="form-label">DateUpdated:</label> 
+                <InputDate id="dateupdated" @bind-Value="Pet.DateUpdated" class="form-control" /> 
+                <ValidationMessage For="() => Pet.DateUpdated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="createdby" class="form-label">CreatedBy:</label> 
+                <InputText id="createdby" @bind-Value="Pet.CreatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Pet.CreatedBy" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="updatedby" class="form-label">UpdatedBy:</label> 
+                <InputText id="updatedby" @bind-Value="Pet.UpdatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Pet.UpdatedBy" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/pets">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Pet Pet { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddPet()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Pet.Add(Pet);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/pets");
+    }
+}

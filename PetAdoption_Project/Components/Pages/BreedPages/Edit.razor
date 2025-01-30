@@ -1,0 +1,109 @@
+﻿@page "/breeds/edit"
+@using Microsoft.EntityFrameworkCore
+@using PetAdoption_Project.Domain
+@inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Breed</h2>
+<hr />
+@if (Breed is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Breed" OnValidSubmit="UpdateBreed" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="Breed.Id" value="@Breed.Id" />
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <InputText id="name" @bind-Value="Breed.Name" class="form-control" />
+                    <ValidationMessage For="() => Breed.Name" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="datecreated" class="form-label">DateCreated:</label>
+                    <InputDate id="datecreated" @bind-Value="Breed.DateCreated" class="form-control" />
+                    <ValidationMessage For="() => Breed.DateCreated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dateupdated" class="form-label">DateUpdated:</label>
+                    <InputDate id="dateupdated" @bind-Value="Breed.DateUpdated" class="form-control" />
+                    <ValidationMessage For="() => Breed.DateUpdated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="createdby" class="form-label">CreatedBy:</label>
+                    <InputText id="createdby" @bind-Value="Breed.CreatedBy" class="form-control" />
+                    <ValidationMessage For="() => Breed.CreatedBy" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="updatedby" class="form-label">UpdatedBy:</label>
+                    <InputText id="updatedby" @bind-Value="Breed.UpdatedBy" class="form-control" />
+                    <ValidationMessage For="() => Breed.UpdatedBy" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/breeds">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Breed? Breed { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Breed ??= await context.Breed.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Breed is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateBreed()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Breed!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!BreedExists(Breed!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/breeds");
+    }
+
+    private bool BreedExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Breed.Any(e => e.Id == id);
+    }
+}

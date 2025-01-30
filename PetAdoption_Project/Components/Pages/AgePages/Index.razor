@@ -1,0 +1,40 @@
+﻿@page "/ages"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using PetAdoption_Project.Domain
+@using PetAdoption_Project.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="ages/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.Age">
+    <PropertyColumn Property="age => age.age" />
+    <PropertyColumn Property="age => age.DateCreated" />
+    <PropertyColumn Property="age => age.DateUpdated" />
+    <PropertyColumn Property="age => age.CreatedBy" />
+    <PropertyColumn Property="age => age.UpdatedBy" />
+
+    <TemplateColumn Context="age">
+        <a href="@($"ages/edit?id={age.Id}")">Edit</a> |
+        <a href="@($"ages/details?id={age.Id}")">Details</a> |
+        <a href="@($"ages/delete?id={age.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private PetAdoption_ProjectContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}
