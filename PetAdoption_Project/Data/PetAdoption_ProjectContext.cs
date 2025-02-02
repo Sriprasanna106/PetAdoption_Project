@@ -21,7 +21,9 @@ namespace PetAdoption_Project.Data
             builder.ApplyConfiguration(new OrganizationSeed());
             builder.ApplyConfiguration(new CustomerSeed());
             builder.ApplyConfiguration(new PetSeed());
-
+            builder.ApplyConfiguration(new RoleSeed());
+            builder.ApplyConfiguration(new UserRoleSeed());
+            builder.ApplyConfiguration(new UserSeed());
         }
     }
 }
