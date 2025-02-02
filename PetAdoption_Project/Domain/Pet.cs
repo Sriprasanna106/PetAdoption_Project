@@ -3,8 +3,11 @@
     public class Pet : BaseDomainModel
     {
         public string? Name { get; set; }
-        public int AgeId { get; set; }
-        public int BreedId { get; set; }
-        public int ColourId { get; set; }
+
+        public int Age { get; set; }
+        public string? Breed { get; set; }
+        public string? Colour { get; set; }
+        public string? Gender { get; set; }
+        public int OrganizationId { get; set; }
     }
 }

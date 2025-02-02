@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetAdoption_Project.Data;
 
@@ -11,9 +12,11 @@ using PetAdoption_Project.Data;
 namespace PetAdoption_Project.Migrations
 {
     [DbContext(typeof(PetAdoption_ProjectContext))]
-    partial class PetAdoption_ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20250131061931_UpdateSiri")]
+    partial class UpdateSiri
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
