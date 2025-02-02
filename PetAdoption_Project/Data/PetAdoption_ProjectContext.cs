@@ -17,11 +17,10 @@ namespace PetAdoption_Project.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder.ApplyConfiguration(new AppointmentSeed());
             builder.ApplyConfiguration(new BranchSeed());
             builder.ApplyConfiguration(new OrganizationSeed());
             builder.ApplyConfiguration(new CustomerSeed());
+            builder.ApplyConfiguration(new PetSeed());
 
         }
     }

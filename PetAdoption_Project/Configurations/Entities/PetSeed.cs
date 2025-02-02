@@ -4,9 +4,9 @@ using PetAdoption_Project.Domain;
 
 namespace PetAdoption_Project.Configurations.Entities
 {
-    public class PetSeed : IEntityTypeConfiguration<Customer>
+    public class PetSeed : IEntityTypeConfiguration<Pet>
     {
-        public void Configure(EntityTypeBuilder<Customer> builder)
+        public void Configure(EntityTypeBuilder<Pet> builder)
         {
             builder.HasData(
             new Pet
@@ -16,7 +16,8 @@ namespace PetAdoption_Project.Configurations.Entities
                 Age = 5,
                 Breed = "Dog",
                 Colour = "White",
-                Gender = "Unspecified"
+                Gender = "Unspecified",
+                OrganizationId = 2
             },
 			new Pet
             {
