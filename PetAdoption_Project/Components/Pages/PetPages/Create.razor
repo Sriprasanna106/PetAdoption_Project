@@ -36,6 +36,16 @@
                 <ValidationMessage For="() => Pet.Colour" class="text-danger" /> 
             </div>        
             <div class="mb-3">
+                <label for="gender" class="form-label">Gender:</label> 
+                <InputNumber id="gender" @bind-Value="Pet.Gender" class="form-control" /> 
+                <ValidationMessage For="() => Pet.Gender" class="text-danger" /> 
+            </div>
+            <div class="mb-3">
+                <label for="organizationid" class="form-label">OrganizationId:</label> 
+                <InputNumber id="organizationid" @bind-Value="Pet.OrganizationId" class="form-control" /> 
+                <ValidationMessage For="() => Pet.OrganizationId" class="text-danger" /> 
+            </div>
+            <div class="mb-3">
                 <label for="datecreated" class="form-label">DateCreated:</label> 
                 <InputDate id="datecreated" @bind-Value="Pet.DateCreated" class="form-control" /> 
                 <ValidationMessage For="() => Pet.DateCreated" class="text-danger" /> 
