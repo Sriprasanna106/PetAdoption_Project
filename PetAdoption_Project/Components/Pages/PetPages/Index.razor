@@ -6,13 +6,14 @@
 @implements IAsyncDisposable
 @inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Pets</PageTitle>
 
-<h1>Index</h1>
-
+<h1>Pets</h1>
+<AuthorizeView Roles="Administrator">
 <p>
     <a href="pets/create">Create New</a>
 </p>
+</AuthorizeView>
 
 <QuickGrid Class="table" Items="context.Pet">
     <PropertyColumn Property="pet => pet.Name" />
@@ -27,9 +28,11 @@
     <PropertyColumn Property="pet => pet.UpdatedBy" />
 
     <TemplateColumn Context="pet">
+        <AuthorizeView Roles="Administrator">
         <a href="@($"pets/edit?id={pet.Id}")">Edit</a> |
         <a href="@($"pets/details?id={pet.Id}")">Details</a> |
         <a href="@($"pets/delete?id={pet.Id}")">Delete</a>
+        </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
 

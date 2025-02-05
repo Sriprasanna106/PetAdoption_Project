@@ -1,0 +1,114 @@
+﻿@page "/inquiries/edit"
+@using Microsoft.EntityFrameworkCore
+@using Project.Domain
+@inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Inquiry</h2>
+<hr />
+@if (Inquiry is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Inquiry" OnValidSubmit="UpdateInquiry" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="Inquiry.Id" value="@Inquiry.Id" />
+                <div class="mb-3">
+                    <label for="question" class="form-label">Question:</label>
+                    <InputText id="question" @bind-Value="Inquiry.Question" class="form-control" />
+                    <ValidationMessage For="() => Inquiry.Question" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="customerid" class="form-label">CustomerId:</label>
+                    <InputNumber id="customerid" @bind-Value="Inquiry.CustomerId" class="form-control" />
+                    <ValidationMessage For="() => Inquiry.CustomerId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="datecreated" class="form-label">DateCreated:</label>
+                    <InputDate id="datecreated" @bind-Value="Inquiry.DateCreated" class="form-control" />
+                    <ValidationMessage For="() => Inquiry.DateCreated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dateupdated" class="form-label">DateUpdated:</label>
+                    <InputDate id="dateupdated" @bind-Value="Inquiry.DateUpdated" class="form-control" />
+                    <ValidationMessage For="() => Inquiry.DateUpdated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="createdby" class="form-label">CreatedBy:</label>
+                    <InputText id="createdby" @bind-Value="Inquiry.CreatedBy" class="form-control" />
+                    <ValidationMessage For="() => Inquiry.CreatedBy" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="updatedby" class="form-label">UpdatedBy:</label>
+                    <InputText id="updatedby" @bind-Value="Inquiry.UpdatedBy" class="form-control" />
+                    <ValidationMessage For="() => Inquiry.UpdatedBy" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/inquiries">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Inquiry? Inquiry { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Inquiry ??= await context.Inquiry.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Inquiry is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateInquiry()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Inquiry!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!InquiryExists(Inquiry!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/inquiries");
+    }
+
+    private bool InquiryExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Inquiry.Any(e => e.Id == id);
+    }
+}

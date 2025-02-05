@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetAdoption_Project.Data;
 
@@ -11,9 +12,11 @@ using PetAdoption_Project.Data;
 namespace PetAdoption_Project.Migrations
 {
     [DbContext(typeof(PetAdoption_ProjectContext))]
-    partial class PetAdoption_ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20250205011426_myside")]
+    partial class myside
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,7 +254,7 @@ namespace PetAdoption_Project.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "40df73d6-bb5b-4130-9fc0-e63c7980000e",
+                            ConcurrencyStamp = "4548d5d9-4e64-4bcc-bb55-92ce7fdb6970",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -259,9 +262,9 @@ namespace PetAdoption_Project.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOdJ5J1An/4JoeE3RLDORa6rh8zUGasX6WLMpmItKYYDEZ9vOR2O8ojlTh8UEn1Mig==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB8MJeZ3j9DT3lmr7H06VuazEjico0S3iq2o5KWPqgFC9IsFIUPV4E1ZxmDTnPZN6Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e093b597-99cd-4585-870e-7f5b6f430a49",
+                            SecurityStamp = "596e850d-ab6e-4126-9360-609b79177e32",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -547,7 +550,7 @@ namespace PetAdoption_Project.Migrations
                             DateUpdated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Gender = "Unspecified",
                             Name = "Kohaku",
-                            OrganizationId = 1
+                            OrganizationId = 2
                         },
                         new
                         {
@@ -561,37 +564,6 @@ namespace PetAdoption_Project.Migrations
                             Name = "Bean",
                             OrganizationId = 0
                         });
-                });
-
-            modelBuilder.Entity("Project.Domain.Inquiry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Question")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Inquiry");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

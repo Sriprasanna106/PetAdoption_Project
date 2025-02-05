@@ -17,7 +17,7 @@ namespace PetAdoption_Project.Configurations.Entities
                 Breed = "Dog",
                 Colour = "White",
                 Gender = "Unspecified",
-                OrganizationId = 2
+                OrganizationId = 1
             },
 			new Pet
             {

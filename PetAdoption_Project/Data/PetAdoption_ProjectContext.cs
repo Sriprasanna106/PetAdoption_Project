@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PetAdoption_Project.Configurations.Entities;
 using PetAdoption_Project.Data;
+using Project.Domain;
 
 namespace PetAdoption_Project.Data
 {
@@ -25,5 +26,6 @@ namespace PetAdoption_Project.Data
             builder.ApplyConfiguration(new UserRoleSeed());
             builder.ApplyConfiguration(new UserSeed());
         }
+        public DbSet<Project.Domain.Inquiry> Inquiry { get; set; } = default!;
     }
 }

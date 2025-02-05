@@ -27,7 +27,7 @@
             </div>        
             <div class="mb-3">
                 <label for="petid" class="form-label">PetId:</label> 
-                <InputNumber id="petid" @bind-Value="Appointment.PetId" class="form-control" /> 
+                <InputNumber id="petid" @bind-Value="Appointment.PetId" class="form-control" hidden="true" />
                 <ValidationMessage For="() => Appointment.PetId" class="text-danger" /> 
             </div>        
             <div class="mb-3">
@@ -55,6 +55,7 @@
                 <InputText id="updatedby" @bind-Value="Appointment.UpdatedBy" class="form-control" /> 
                 <ValidationMessage For="() => Appointment.UpdatedBy" class="text-danger" /> 
             </div>        
+
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
