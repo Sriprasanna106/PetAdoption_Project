@@ -4,7 +4,6 @@
 @using Project.Domain
 @inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
-@attribute [Authorize(Roles = "Administrator")]
 <PageTitle>Create</PageTitle>
 
 <h1>Create</h1>
@@ -52,7 +51,7 @@
 </div>
 
 <div>
-    <a href="/inquiries">Back to List</a>
+    <a href="/">Back</a>
 </div>
 
 @code {
