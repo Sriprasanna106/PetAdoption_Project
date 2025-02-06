@@ -9,10 +9,11 @@
 <PageTitle>Donations</PageTitle>
 
 <h1>Donations</h1>
-
+<AuthorizeView Roles="User">
 <p>
     <a href="donations/create">Create New</a>
 </p>
+</AuthorizeView>
 
 <QuickGrid Class="table" Items="context.Donation">
     <PropertyColumn Property="donation => donation.DateOut" />
@@ -25,9 +26,11 @@
     <PropertyColumn Property="donation => donation.UpdatedBy" />
 
     <TemplateColumn Context="donation">
+        <AuthorizeView Roles="Administrator">
         <a href="@($"donations/edit?id={donation.Id}")">Edit</a> |
         <a href="@($"donations/details?id={donation.Id}")">Details</a> |
         <a href="@($"donations/delete?id={donation.Id}")">Delete</a>
+        </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
 

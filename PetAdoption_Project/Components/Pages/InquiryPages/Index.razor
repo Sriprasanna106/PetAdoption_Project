@@ -9,10 +9,11 @@
 <PageTitle>Inquiries</PageTitle>
 
 <h1>Inquiries</h1>
-
+<AuthorizeView Roles="User">
 <p>
     <a href="inquiries/create">Create New</a>
 </p>
+</AuthorizeView>
 
 <QuickGrid Class="table" Items="context.Inquiry">
     <PropertyColumn Property="inquiry => inquiry.Question" />
@@ -23,9 +24,11 @@
     <PropertyColumn Property="inquiry => inquiry.UpdatedBy" />
 
     <TemplateColumn Context="inquiry">
+        <AuthorizeView Roles="Administrator">
         <a href="@($"inquiries/edit?id={inquiry.Id}")">Edit</a> |
         <a href="@($"inquiries/details?id={inquiry.Id}")">Details</a> |
         <a href="@($"inquiries/delete?id={inquiry.Id}")">Delete</a>
+        </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
 
