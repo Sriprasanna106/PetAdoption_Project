@@ -14,6 +14,8 @@ namespace PetAdoption_Project.Configurations.Entities
                Id = 1,
                Name = "HYV Animal Centre",
                Address = "977 Grove Street",
+               DateCreated = DateTime.Now,
+               DateUpdated = DateTime.Now,
                CreatedBy = "System",
                UpdatedBy = "System"
            }

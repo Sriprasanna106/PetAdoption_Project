@@ -17,7 +17,11 @@ namespace PetAdoption_Project.Configurations.Entities
                 Breed = "Dog",
                 Colour = "White",
                 Gender = "Unspecified",
-                OrganizationId = 1
+                OrganizationId = 1,
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                CreatedBy = "System",
+                UpdatedBy = "System"
             },
 			new Pet
             {
@@ -26,7 +30,11 @@ namespace PetAdoption_Project.Configurations.Entities
                 Age = 1,
                 Breed = "Monitor Lizard",
                 Colour = "Brown",
-                Gender = "Male"
+                Gender = "Male",
+                DateCreated = DateTime.Now,
+                DateUpdated = DateTime.Now,
+                CreatedBy = "System",
+                UpdatedBy = "System"
                 // this pet doesn't have an organization ID
             }
 			);
