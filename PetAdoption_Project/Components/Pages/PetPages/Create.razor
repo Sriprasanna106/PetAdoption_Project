@@ -1,5 +1,6 @@
 ﻿@page "/pets/create"
 @using Microsoft.EntityFrameworkCore
+@using PetAdoption_Project.Data
 @using PetAdoption_Project.Domain
 @inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
@@ -44,12 +45,7 @@
                 <label for="organizationid" class="form-label">OrganizationId:</label> 
                 <InputNumber id="organizationid" @bind-Value="Pet.OrganizationId" class="form-control" /> 
                 <ValidationMessage For="() => Pet.OrganizationId" class="text-danger" /> 
-            </div>
-            <div class="mb-3" hidden>
-                <label for="datecreated" class="form-label">DateCreated:</label> 
-                <InputDate id="datecreated" @bind-Value="Pet.DateCreated" class="form-control" /> 
-                <ValidationMessage For="() => Pet.DateCreated" class="text-danger" /> 
-            </div>        
+            </div>  
             <div class="mb-3" hidden>
                 <label for="dateupdated" class="form-label">DateUpdated:</label> 
                 <InputDate id="dateupdated" @bind-Value="Pet.DateUpdated" class="form-control" /> 
@@ -77,7 +73,6 @@
 @code {
     [SupplyParameterFromForm]
     private Pet Pet { get; set; } = new();
-
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddPet()
     {
@@ -92,6 +87,7 @@
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/pets");
     }
+
 
     //Create userId string to store the user id, default value is "System".
     private string userId = "System";

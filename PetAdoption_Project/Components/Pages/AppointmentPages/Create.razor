@@ -1,5 +1,6 @@
-﻿@page "/appointments/create"
+﻿@page "/appointments/create/{petId:int?}"
 @using Microsoft.EntityFrameworkCore
+@using PetAdoption_Project.Data
 @using PetAdoption_Project.Domain
 @inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
@@ -27,7 +28,7 @@
             </div>        
             <div class="mb-3">
                 <label for="petid" class="form-label">PetId:</label> 
-                <InputNumber id="petid" @bind-Value="Appointment.PetId" class="form-control" hidden="true" />
+                <InputNumber id="petid" @bind-Value="Appointment.PetId" class="form-control" readonly />
                 <ValidationMessage For="() => Appointment.PetId" class="text-danger" /> 
             </div>        
             <div class="mb-3">
@@ -35,22 +36,22 @@
                 <InputNumber id="customerid" @bind-Value="Appointment.CustomerId" class="form-control" /> 
                 <ValidationMessage For="() => Appointment.CustomerId" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="datecreated" class="form-label">DateCreated:</label> 
                 <InputDate id="datecreated" @bind-Value="Appointment.DateCreated" class="form-control" /> 
                 <ValidationMessage For="() => Appointment.DateCreated" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="dateupdated" class="form-label">DateUpdated:</label> 
                 <InputDate id="dateupdated" @bind-Value="Appointment.DateUpdated" class="form-control" /> 
                 <ValidationMessage For="() => Appointment.DateUpdated" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="createdby" class="form-label">CreatedBy:</label> 
                 <InputText id="createdby" @bind-Value="Appointment.CreatedBy" class="form-control" /> 
                 <ValidationMessage For="() => Appointment.CreatedBy" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="updatedby" class="form-label">UpdatedBy:</label> 
                 <InputText id="updatedby" @bind-Value="Appointment.UpdatedBy" class="form-control" /> 
                 <ValidationMessage For="() => Appointment.UpdatedBy" class="text-danger" /> 
@@ -62,19 +63,41 @@
 </div>
 
 <div>
-    <a href="/appointments">Back to List</a>
+    <a href="/">Back</a>
 </div>
 
 @code {
+    [Parameter]
+    public int? PetId { get; set; }
+
     [SupplyParameterFromForm]
     private Appointment Appointment { get; set; } = new();
 
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddAppointment()
     {
-        using var context = DbFactory.CreateDbContext();
+        using var context = DbFactory.CreateDbContext(); 
+        Appointment.CreatedBy = userId;
+        Appointment.DateCreated = DateTime.Now;
         context.Appointment.Add(Appointment);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/appointments");
+    }
+    //Create userId string to store the user id, default value is "System".
+    private string userId = "System";
+    //Inject the AuthenticationStateProvider to get the user id.
+    @inject AuthenticationStateProvider authenticationStateProvider
+    //Override the OnInitialized method to get the user id.
+    protected override async void OnInitialized()
+    {
+        Appointment.PetId = PetId.Value;
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Get the userId claim
+        var userIdClaim = user.FindFirst("userId");
+        if (userIdClaim != null)
+        {
+            userId = userIdClaim.Value;
+        }
     }
 }

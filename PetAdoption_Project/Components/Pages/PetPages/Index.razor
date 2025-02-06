@@ -34,7 +34,7 @@
         <a href="@($"pets/delete?id={pet.Id}")">Delete</a>
         </AuthorizeView>
         <AuthorizeView Roles="User">
-        <a href="@($"appointments/create")">Adopt this pet!</a>
+        <a href="@($"appointments/create/{pet.Id}")">Adopt this pet!</a>
         </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
