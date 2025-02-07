@@ -69,11 +69,9 @@
 @code {
     [Parameter]
     public int? PetId { get; set; }
-    public int? CustId { get; set; }
 
     [SupplyParameterFromForm]
     private Appointment Appointment { get; set; } = new();
-    private Customer? SelCustomer;
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddAppointment()
     {

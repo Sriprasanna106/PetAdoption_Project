@@ -27,10 +27,10 @@
     <PropertyColumn Property="appointment => appointment.UpdatedBy" />
 
     <TemplateColumn Context="appointment">
+        <a href="@($"appointments/edit?id={appointment.Id}")">Edit</a> |
+            <a href="@($"appointments/details?id={appointment.Id}")">Details</a> 
         <AuthorizeView Roles="Administrator">
-            <a href="@($"appointments/edit?id={appointment.Id}")">Edit</a> |
-            <a href="@($"appointments/details?id={appointment.Id}")">Details</a> |
-            <a href="@($"appointments/delete?id={appointment.Id}")">Delete</a>
+            | <a href="@($"appointments/delete?id={appointment.Id}")">Delete</a>
         </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>

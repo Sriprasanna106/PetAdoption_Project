@@ -4,7 +4,6 @@
 @using PetAdoption_Project.Domain
 @inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
-@attribute [Authorize(Roles = "Administrator")]
 <PageTitle>Edit</PageTitle>
 
 <h1>Edit</h1>
@@ -23,42 +22,42 @@ else
                 <DataAnnotationsValidator />
                 <ValidationSummary role="alert"/>
                 <input type="hidden" name="Appointment.Id" value="@Appointment.Id" />
-                <div class="mb-3">
+                <div class="mb-3" >
                     <label for="dateout" class="form-label">DateOut:</label>
                     <InputDate id="dateout" @bind-Value="Appointment.DateOut" class="form-control" />
                     <ValidationMessage For="() => Appointment.DateOut" class="text-danger" />
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" hidden>
                     <label for="datein" class="form-label">DateIn:</label>
                     <InputDate id="datein" @bind-Value="Appointment.DateIn" class="form-control" />
                     <ValidationMessage For="() => Appointment.DateIn" class="text-danger" />
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" hidden>
                     <label for="petid" class="form-label">PetId:</label>
                     <InputNumber id="petid" @bind-Value="Appointment.PetId" class="form-control" />
                     <ValidationMessage For="() => Appointment.PetId" class="text-danger" />
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" hidden>
                     <label for="customerid" class="form-label">CustomerId:</label>
                     <InputNumber id="customerid" @bind-Value="Appointment.CustomerId" class="form-control" />
                     <ValidationMessage For="() => Appointment.CustomerId" class="text-danger" />
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" hidden>
                     <label for="datecreated" class="form-label">DateCreated:</label>
                     <InputDate id="datecreated" @bind-Value="Appointment.DateCreated" class="form-control" />
                     <ValidationMessage For="() => Appointment.DateCreated" class="text-danger" />
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" hidden>
                     <label for="dateupdated" class="form-label">DateUpdated:</label>
                     <InputDate id="dateupdated" @bind-Value="Appointment.DateUpdated" class="form-control" />
                     <ValidationMessage For="() => Appointment.DateUpdated" class="text-danger" />
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" hidden>
                     <label for="createdby" class="form-label">CreatedBy:</label>
                     <InputText id="createdby" @bind-Value="Appointment.CreatedBy" class="form-control" />
                     <ValidationMessage For="() => Appointment.CreatedBy" class="text-danger" />
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" hidden>
                     <label for="updatedby" class="form-label">UpdatedBy:</label>
                     <InputText id="updatedby" @bind-Value="Appointment.UpdatedBy" class="form-control" />
                     <ValidationMessage For="() => Appointment.UpdatedBy" class="text-danger" />
@@ -89,6 +88,7 @@ else
         {
             NavigationManager.NavigateTo("notfound");
         }
+
     }
 
     // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -100,6 +100,7 @@ else
 
         try
         {
+            Appointment.DateUpdated = DateTime.Now;
             await context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
@@ -114,7 +115,25 @@ else
             }
         }
 
+
         NavigationManager.NavigateTo("/appointments");
+    }
+    //Create userId string to store the user id, default value is "System".
+    private string userId = "System";
+    //Inject the AuthenticationStateProvider to get the user id.
+    @inject AuthenticationStateProvider authenticationStateProvider
+    //Override the OnInitialized method to get the user id.
+    protected override async void OnInitialized()
+    {
+        using var context = DbFactory.CreateDbContext();
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Get the userId claim
+        var userIdClaim = user.FindFirst("userId");
+        if (userIdClaim != null)
+        {
+            userId = userIdClaim.Value;
+        }
     }
 
     private bool AppointmentExists(int id)
