@@ -20,27 +20,27 @@
                 <InputText id="question" @bind-Value="Inquiry.Question" class="form-control" /> 
                 <ValidationMessage For="() => Inquiry.Question" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="customerid" class="form-label">CustomerId:</label> 
                 <InputNumber id="customerid" @bind-Value="Inquiry.CustomerId" class="form-control" /> 
                 <ValidationMessage For="() => Inquiry.CustomerId" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="datecreated" class="form-label">DateCreated:</label> 
                 <InputDate id="datecreated" @bind-Value="Inquiry.DateCreated" class="form-control" /> 
                 <ValidationMessage For="() => Inquiry.DateCreated" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="dateupdated" class="form-label">DateUpdated:</label> 
                 <InputDate id="dateupdated" @bind-Value="Inquiry.DateUpdated" class="form-control" /> 
                 <ValidationMessage For="() => Inquiry.DateUpdated" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="createdby" class="form-label">CreatedBy:</label> 
                 <InputText id="createdby" @bind-Value="Inquiry.CreatedBy" class="form-control" /> 
                 <ValidationMessage For="() => Inquiry.CreatedBy" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="updatedby" class="form-label">UpdatedBy:</label> 
                 <InputText id="updatedby" @bind-Value="Inquiry.UpdatedBy" class="form-control" /> 
                 <ValidationMessage For="() => Inquiry.UpdatedBy" class="text-danger" /> 
@@ -62,8 +62,29 @@
     private async Task AddInquiry()
     {
         using var context = DbFactory.CreateDbContext();
+        Inquiry.DateCreated = DateTime.Now;
+        Inquiry.DateUpdated = DateTime.Now;
+        Inquiry.CreatedBy = userId;
+        Inquiry.UpdatedBy = userId;
         context.Inquiry.Add(Inquiry);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/inquiries");
+    }
+    //Create userId string to store the user id, default value is "System".
+    private string userId = "System";
+    //Inject the AuthenticationStateProvider to get the user id.
+    @inject AuthenticationStateProvider authenticationStateProvider
+    //Override the OnInitialized method to get the user id.
+    protected override async void OnInitialized()
+    {
+        using var context = DbFactory.CreateDbContext();
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Get the userId claim
+        var userIdClaim = user.FindFirst("userId");
+        if (userIdClaim != null)
+        {
+            userId = userIdClaim.Value;
+        }
     }
 }

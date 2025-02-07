@@ -15,28 +15,39 @@
 </p>
 </AuthorizeView>
 
-<QuickGrid Class="table" Items="context.Inquiry">
+<QuickGrid Class="table" Items="FilteredInquiries">
     <PropertyColumn Property="inquiry => inquiry.Question" />
-    <PropertyColumn Property="inquiry => inquiry.CustomerId" />
+   <!-- <PropertyColumn Property="inquiry => inquiry.CustomerId" /> -->
     <PropertyColumn Property="inquiry => inquiry.DateCreated" />
     <PropertyColumn Property="inquiry => inquiry.DateUpdated" />
     <PropertyColumn Property="inquiry => inquiry.CreatedBy" />
     <PropertyColumn Property="inquiry => inquiry.UpdatedBy" />
 
     <TemplateColumn Context="inquiry">
+     <!--  <a href="@($"inquiries/edit?id={inquiry.Id}")">Edit</a> | -->
+        <a href="@($"inquiries/details?id={inquiry.Id}")">Details</a> 
         <AuthorizeView Roles="Administrator">
-        <a href="@($"inquiries/edit?id={inquiry.Id}")">Edit</a> |
-        <a href="@($"inquiries/details?id={inquiry.Id}")">Details</a> |
-        <a href="@($"inquiries/delete?id={inquiry.Id}")">Delete</a>
+        |<a href="@($"inquiries/delete?id={inquiry.Id}")">Delete</a>
         </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
 
 @code {
     private PetAdoption_ProjectContext context = default!;
-
-    protected override void OnInitialized()
+    private string userId = string.Empty;
+    private bool isAdmin = false;
+    @inject AuthenticationStateProvider authenticationStateProvider
+    private IQueryable<Inquiry> FilteredInquiries => isAdmin
+    ? context.Inquiry // Admins can see all bookings
+    : context.Inquiry.Where(e => e.CreatedBy == userId);
+    protected override async Task OnInitializedAsync()
     {
+        // Fetch the authentication state
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Extract user information
+        userId = user.FindFirst("userId")?.Value ?? string.Empty;
+        isAdmin = user.IsInRole("Administrator");
         context = DbFactory.CreateDbContext();
     }
 

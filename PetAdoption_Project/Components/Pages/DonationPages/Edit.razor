@@ -100,6 +100,7 @@ else
 
         try
         {
+            Donation.DateUpdated = DateTime.Now;
             await context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
@@ -115,6 +116,23 @@ else
         }
 
         NavigationManager.NavigateTo("/donations");
+    }
+    //Create userId string to store the user id, default value is "System".
+    private string userId = "System";
+    //Inject the AuthenticationStateProvider to get the user id.
+    @inject AuthenticationStateProvider authenticationStateProvider
+    //Override the OnInitialized method to get the user id.
+    protected override async void OnInitialized()
+    {
+        using var context = DbFactory.CreateDbContext();
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Get the userId claim
+        var userIdClaim = user.FindFirst("userId");
+        if (userIdClaim != null)
+        {
+            userId = userIdClaim.Value;
+        }
     }
 
     private bool DonationExists(int id)

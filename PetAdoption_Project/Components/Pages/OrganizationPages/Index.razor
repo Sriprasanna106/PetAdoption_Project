@@ -23,9 +23,11 @@
     <PropertyColumn Property="organization => organization.UpdatedBy" />
 
     <TemplateColumn Context="organization">
+        <AuthorizeView Roles = "Administrator">
         <a href="@($"organizations/edit?id={organization.Id}")">Edit</a> |
         <a href="@($"organizations/details?id={organization.Id}")">Details</a> |
         <a href="@($"organizations/delete?id={organization.Id}")">Delete</a>
+        </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
 

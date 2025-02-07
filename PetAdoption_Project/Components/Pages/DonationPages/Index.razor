@@ -15,30 +15,42 @@
 </p>
 </AuthorizeView>
 
-<QuickGrid Class="table" Items="context.Donation">
-    <PropertyColumn Property="donation => donation.DateOut" />
-    <PropertyColumn Property="donation => donation.DateIn" />
+
+<QuickGrid Class="table" Items="FilteredDonations">
+   <!-- <PropertyColumn Property="donation => donation.DateOut" /> -->
+   <!-- <PropertyColumn Property="donation => donation.DateIn" /> -->
     <PropertyColumn Property="donation => donation.Amount" />
-    <PropertyColumn Property="donation => donation.CustomerId" />
+   <!-- <PropertyColumn Property="donation => donation.CustomerId" /> -->
     <PropertyColumn Property="donation => donation.DateCreated" />
     <PropertyColumn Property="donation => donation.DateUpdated" />
     <PropertyColumn Property="donation => donation.CreatedBy" />
     <PropertyColumn Property="donation => donation.UpdatedBy" />
 
     <TemplateColumn Context="donation">
+   <!-- <a href="@($"donations/edit?id={donation.Id}")">Edit</a> | -->
+        <a href="@($"donations/details?id={donation.Id}")">Details</a> 
         <AuthorizeView Roles="Administrator">
-        <a href="@($"donations/edit?id={donation.Id}")">Edit</a> |
-        <a href="@($"donations/details?id={donation.Id}")">Details</a> |
-        <a href="@($"donations/delete?id={donation.Id}")">Delete</a>
+        |<a href="@($"donations/delete?id={donation.Id}")">Delete</a>
         </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
 
 @code {
     private PetAdoption_ProjectContext context = default!;
-
-    protected override void OnInitialized()
+    private string userId = string.Empty;
+    private bool isAdmin = false;
+    @inject AuthenticationStateProvider authenticationStateProvider
+    private IQueryable<Donation> FilteredDonations => isAdmin
+    ? context.Donation // Admins can see all bookings
+    : context.Donation.Where(e => e.CreatedBy == userId);
+    protected override async Task OnInitializedAsync()
     {
+        // Fetch the authentication state
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Extract user information
+        userId = user.FindFirst("userId")?.Value ?? string.Empty;
+        isAdmin = user.IsInRole("Administrator");
         context = DbFactory.CreateDbContext();
     }
 

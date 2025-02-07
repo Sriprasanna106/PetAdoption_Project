@@ -40,7 +40,6 @@
     private string userId = string.Empty;
     private bool isAdmin = false;
     @inject AuthenticationStateProvider authenticationStateProvider
-    // Filter bookings by userId
     private IQueryable<Appointment> FilteredAppointments => isAdmin
     ? context.Appointment // Admins can see all bookings
     : context.Appointment.Where(e => e.CreatedBy == userId);
