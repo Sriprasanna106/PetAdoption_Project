@@ -9,17 +9,18 @@
 <PageTitle>Appointments</PageTitle>
 
 <h1>Appointments</h1>
-<AuthorizeView Roles = "User">
+<!--
 <p>
     <a href="appointments/create">Create New</a>
 </p>
-</AuthorizeView>
+-->
 
-<QuickGrid Class="table" Items="context.Appointment">
+
+<QuickGrid Class="table" Items="FilteredAppointments">
     <PropertyColumn Property="appointment => appointment.DateOut" />
-    <PropertyColumn Property="appointment => appointment.DateIn" />
+  <!--  <PropertyColumn Property="appointment => appointment.DateIn" /> -->
     <PropertyColumn Property="appointment => appointment.PetId" />
-    <PropertyColumn Property="appointment => appointment.CustomerId" />
+  <!--  <PropertyColumn Property="appointment => appointment.CustomerId" /> -->
     <PropertyColumn Property="appointment => appointment.DateCreated" />
     <PropertyColumn Property="appointment => appointment.DateUpdated" />
     <PropertyColumn Property="appointment => appointment.CreatedBy" />
@@ -36,11 +37,22 @@
 
 @code {
     private PetAdoption_ProjectContext context = default!;
-
-    protected override void OnInitialized()
+    private string userId = string.Empty;
+    private bool isAdmin = false;
+    @inject AuthenticationStateProvider authenticationStateProvider
+    // Filter bookings by userId
+    private IQueryable<Appointment> FilteredAppointments => isAdmin
+    ? context.Appointment // Admins can see all bookings
+    : context.Appointment.Where(e => e.CreatedBy == userId);
+    protected override async Task OnInitializedAsync()
     {
+        // Fetch the authentication state
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Extract user information
+        userId = user.FindFirst("userId")?.Value ?? string.Empty;
+        isAdmin = user.IsInRole("Administrator");
         context = DbFactory.CreateDbContext();
     }
-
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
 }

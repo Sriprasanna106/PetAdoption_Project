@@ -21,7 +21,7 @@
                 <InputDate id="dateout" @bind-Value="Appointment.DateOut" class="form-control" /> 
                 <ValidationMessage For="() => Appointment.DateOut" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="datein" class="form-label">DateIn:</label> 
                 <InputDate id="datein" @bind-Value="Appointment.DateIn" class="form-control" /> 
                 <ValidationMessage For="() => Appointment.DateIn" class="text-danger" /> 
@@ -31,9 +31,9 @@
                 <InputNumber id="petid" @bind-Value="Appointment.PetId" class="form-control" readonly />
                 <ValidationMessage For="() => Appointment.PetId" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" hidden>
                 <label for="customerid" class="form-label">CustomerId:</label> 
-                <InputNumber id="customerid" @bind-Value="Appointment.CustomerId" class="form-control" /> 
+                <InputNumber id="customerid" @bind-Value="Appointment.CustomerId" class="form-control" readonly/> 
                 <ValidationMessage For="() => Appointment.CustomerId" class="text-danger" /> 
             </div>        
             <div class="mb-3" hidden>
@@ -69,16 +69,20 @@
 @code {
     [Parameter]
     public int? PetId { get; set; }
+    public int? CustId { get; set; }
 
     [SupplyParameterFromForm]
     private Appointment Appointment { get; set; } = new();
-
+    private Customer? SelCustomer;
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddAppointment()
     {
         using var context = DbFactory.CreateDbContext(); 
+
         Appointment.CreatedBy = userId;
+        Appointment.UpdatedBy = userId;
         Appointment.DateCreated = DateTime.Now;
+        Appointment.DateUpdated = DateTime.Now;
         context.Appointment.Add(Appointment);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/appointments");
@@ -90,6 +94,7 @@
     //Override the OnInitialized method to get the user id.
     protected override async void OnInitialized()
     {
+        using var context = DbFactory.CreateDbContext();
         Appointment.PetId = PetId.Value;
         var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
