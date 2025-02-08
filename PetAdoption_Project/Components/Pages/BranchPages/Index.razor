@@ -9,10 +9,11 @@
 <PageTitle>Branches</PageTitle>
 
 <h1>Branches</h1>
-
+<AuthorizeView Roles = "Administrator">
 <p>
     <a href="branches/create">Create New</a>
 </p>
+</AuthorizeView>
 
 <QuickGrid Class="table" Items="context.Branch">
     <PropertyColumn Property="branch => branch.Name" />

@@ -23,9 +23,9 @@ else
                 <ValidationSummary role="alert"/>
                 <input type="hidden" name="Appointment.Id" value="@Appointment.Id" />
                 <div class="mb-3" >
-                    <label for="dateout" class="form-label">DateOut:</label>
-                    <InputDate id="dateout" @bind-Value="Appointment.DateOut" class="form-control" />
-                    <ValidationMessage For="() => Appointment.DateOut" class="text-danger" />
+                    <label for="dateout" class="form-label">AppointmentDate:</label>
+                    <InputDate id="dateout" @bind-Value="Appointment.AppointmentDate" class="form-control" />
+                    <ValidationMessage For="() => Appointment.AppointmentDate" class="text-danger" />
                 </div>
                 <div class="mb-3" hidden>
                     <label for="datein" class="form-label">DateIn:</label>
