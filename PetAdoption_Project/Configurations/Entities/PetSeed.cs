@@ -18,12 +18,12 @@ namespace PetAdoption_Project.Configurations.Entities
                 Colour = "White",
                 Gender = "Unspecified",
                 OrganizationId = 1,
-                DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
                 CreatedBy = "System",
-                UpdatedBy = "System"
+                UpdatedBy = "System",
+                IsAdopted = false
             },
-			new Pet
+            new Pet
             {
                 Id = 2,
                 Name = "Bean",
@@ -31,13 +31,12 @@ namespace PetAdoption_Project.Configurations.Entities
                 Breed = "Monitor Lizard",
                 Colour = "Brown",
                 Gender = "Male",
-                DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
                 CreatedBy = "System",
-                UpdatedBy = "System"
-                // this pet doesn't have an organization ID
+                UpdatedBy = "System",
+                IsAdopted = false
             }
-			);
+            );
         }
     }
 }

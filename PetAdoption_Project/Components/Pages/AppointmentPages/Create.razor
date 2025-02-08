@@ -26,21 +26,21 @@
                 <InputDate id="datein" @bind-Value="Appointment.DateIn" class="form-control" /> 
                 <ValidationMessage For="() => Appointment.DateIn" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
+            <div class="mb-3" >
                 <label for="petid" class="form-label">PetId:</label> 
                 <InputNumber id="petid" @bind-Value="Appointment.PetId" class="form-control" readonly />
                 <ValidationMessage For="() => Appointment.PetId" class="text-danger" /> 
-            </div>        
+            </div>
+            <div class="mb-3">
+                <label for="petname" class="form-label">Pet Name:</label>
+                <InputText id="petname" @bind-Value="PetName" class="form-control" readonly />
+                <ValidationMessage For="() => PetName" class="text-danger" />
+            </div>
             <div class="mb-3" hidden>
                 <label for="customerid" class="form-label">CustomerId:</label> 
                 <InputNumber id="customerid" @bind-Value="Appointment.CustomerId" class="form-control" readonly/> 
                 <ValidationMessage For="() => Appointment.CustomerId" class="text-danger" /> 
-            </div>        
-            <div class="mb-3" hidden>
-                <label for="datecreated" class="form-label">DateCreated:</label> 
-                <InputDate id="datecreated" @bind-Value="Appointment.DateCreated" class="form-control" /> 
-                <ValidationMessage For="() => Appointment.DateCreated" class="text-danger" /> 
-            </div>        
+            </div>               
             <div class="mb-3" hidden>
                 <label for="dateupdated" class="form-label">DateUpdated:</label> 
                 <InputDate id="dateupdated" @bind-Value="Appointment.DateUpdated" class="form-control" /> 
@@ -69,7 +69,7 @@
 @code {
     [Parameter]
     public int? PetId { get; set; }
-
+    private string PetName { get; set; } = string.Empty;
     [SupplyParameterFromForm]
     private Appointment Appointment { get; set; } = new();
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
@@ -79,8 +79,14 @@
 
         Appointment.CreatedBy = userId;
         Appointment.UpdatedBy = userId;
-        Appointment.DateCreated = DateTime.Now;
         Appointment.DateUpdated = DateTime.Now;
+        Appointment.PetName = PetName;
+        var pet = await context.Pet.FindAsync(Appointment.PetId);
+        if (pet != null)
+        {
+            pet.IsAdopted = true;
+            context.Pet.Update(pet);
+        }
         context.Appointment.Add(Appointment);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/appointments");
@@ -90,10 +96,19 @@
     //Inject the AuthenticationStateProvider to get the user id.
     @inject AuthenticationStateProvider authenticationStateProvider
     //Override the OnInitialized method to get the user id.
-    protected override async void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        Appointment.PetId = PetId.Value;
+        if (PetId.HasValue)
+        {
+            // Fetch pet details
+            var pet = await context.Pet.FindAsync(PetId.Value);
+            if (pet != null)
+            {
+                Appointment.PetId = pet.Id;
+                PetName = pet.Name; // Assign the pet's name
+            }
+        }
         var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         // Get the userId claim

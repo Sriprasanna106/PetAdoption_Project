@@ -14,7 +14,6 @@ namespace PetAdoption_Project.Configurations.Entities
                Id = 1,
                Name = "Tampines",
                Address = "Street 54, Ave 5, 120987",
-               OrganizationId = 2,
                CreatedBy = "System",
                UpdatedBy = "System"
            }

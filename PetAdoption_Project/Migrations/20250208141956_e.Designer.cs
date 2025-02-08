@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetAdoption_Project.Data;
 
@@ -11,9 +12,11 @@ using PetAdoption_Project.Data;
 namespace PetAdoption_Project.Migrations
 {
     [DbContext(typeof(PetAdoption_ProjectContext))]
-    partial class PetAdoption_ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20250208141956_e")]
+    partial class e
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,7 +254,7 @@ namespace PetAdoption_Project.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1fc1a11b-c7cf-403d-ba29-ca05b99359a7",
+                            ConcurrencyStamp = "7d73dec0-bab5-4301-a804-b1cb268c63ad",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -259,9 +262,9 @@ namespace PetAdoption_Project.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELtCATrRqHzN+QHQ3dSOpf2i5q38ObcA2jIHUhHJYp1718EjkeRIKLYgo+O6hAFbBw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPOmA0lPx1zEmlhMtixCLCsl7OcbbvrjDSHJIco+oLby1tKLs8EifQ2oDvJQoUv64A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e44936ee-a34c-4bc8-9863-03b25a0b6ea0",
+                            SecurityStamp = "f845bf27-6af8-40d1-a15d-e7e70ff3b92a",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -384,7 +387,7 @@ namespace PetAdoption_Project.Migrations
                             Address = "Lenovo Street 45",
                             ContactNumber = "94656485",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 8, 23, 0, 5, 458, DateTimeKind.Local).AddTicks(1131),
+                            DateUpdated = new DateTime(2025, 2, 8, 22, 19, 55, 365, DateTimeKind.Local).AddTicks(1407),
                             Email = "NumberOneCrate@gmail.com",
                             Name = "JohnPork",
                             UpdatedBy = "System"
@@ -395,7 +398,7 @@ namespace PetAdoption_Project.Migrations
                             Address = "HP Street 216",
                             ContactNumber = "86364294",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 8, 23, 0, 5, 458, DateTimeKind.Local).AddTicks(1134),
+                            DateUpdated = new DateTime(2025, 2, 8, 22, 19, 55, 365, DateTimeKind.Local).AddTicks(1410),
                             Email = "NumberTwoPhone@gmail.com",
                             Name = "Xodus",
                             UpdatedBy = "System"
@@ -469,7 +472,7 @@ namespace PetAdoption_Project.Migrations
                             Id = 1,
                             Address = "977 Grove Street",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 8, 23, 0, 5, 458, DateTimeKind.Local).AddTicks(963),
+                            DateUpdated = new DateTime(2025, 2, 8, 22, 19, 55, 365, DateTimeKind.Local).AddTicks(1178),
                             Name = "HYV Animal Centre",
                             UpdatedBy = "System"
                         });
@@ -525,7 +528,7 @@ namespace PetAdoption_Project.Migrations
                             Breed = "Dog",
                             Colour = "White",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 8, 23, 0, 5, 458, DateTimeKind.Local).AddTicks(1261),
+                            DateUpdated = new DateTime(2025, 2, 8, 22, 19, 55, 365, DateTimeKind.Local).AddTicks(1649),
                             Gender = "Unspecified",
                             IsAdopted = false,
                             Name = "Kohaku",
@@ -539,7 +542,7 @@ namespace PetAdoption_Project.Migrations
                             Breed = "Monitor Lizard",
                             Colour = "Brown",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 8, 23, 0, 5, 458, DateTimeKind.Local).AddTicks(1265),
+                            DateUpdated = new DateTime(2025, 2, 8, 22, 19, 55, 365, DateTimeKind.Local).AddTicks(1652),
                             Gender = "Male",
                             IsAdopted = false,
                             Name = "Bean",

@@ -34,12 +34,7 @@
                 <label for="customerid" class="form-label">CustomerId:</label> 
                 <InputNumber id="customerid" @bind-Value="Donation.CustomerId" class="form-control" /> 
                 <ValidationMessage For="() => Donation.CustomerId" class="text-danger" /> 
-            </div>        
-            <div class="mb-3" hidden>
-                <label for="datecreated" class="form-label">DateCreated:</label> 
-                <InputDate id="datecreated" @bind-Value="Donation.DateCreated" class="form-control" /> 
-                <ValidationMessage For="() => Donation.DateCreated" class="text-danger" /> 
-            </div>        
+            </div>            
             <div class="mb-3" hidden>
                 <label for="dateupdated" class="form-label">DateUpdated:</label> 
                 <InputDate id="dateupdated" @bind-Value="Donation.DateUpdated" class="form-control" /> 
@@ -72,7 +67,6 @@
     private async Task AddDonation()
     {
         using var context = DbFactory.CreateDbContext();
-        Donation.DateCreated = DateTime.Now;
         Donation.DateUpdated = DateTime.Now;
         Donation.CreatedBy = userId;
         Donation.UpdatedBy = userId;

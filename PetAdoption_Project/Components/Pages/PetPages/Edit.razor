@@ -54,11 +54,6 @@ else
                     <ValidationMessage For="() => Pet.OrganizationId" class="text-danger" />
                 </div>
                 <div class="mb-3" hidden>
-                    <label for="datecreated" class="form-label">DateCreated:</label>
-                    <InputDate id="datecreated" @bind-Value="Pet.DateCreated" class="form-control" />
-                    <ValidationMessage For="() => Pet.DateCreated" class="text-danger" />
-                </div>
-                <div class="mb-3" hidden>
                     <label for="dateupdated" class="form-label">DateUpdated:</label>
                     <InputDate id="dateupdated" @bind-Value="Pet.DateUpdated" class="form-control" />
                     <ValidationMessage For="() => Pet.DateUpdated" class="text-danger" />

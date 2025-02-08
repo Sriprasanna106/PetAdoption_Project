@@ -18,16 +18,16 @@
 <QuickGrid Class="table" Items="context.Branch">
     <PropertyColumn Property="branch => branch.Name" />
     <PropertyColumn Property="branch => branch.Address" />
-    <PropertyColumn Property="branch => branch.OrganizationId" />
-    <PropertyColumn Property="branch => branch.DateCreated" />
     <PropertyColumn Property="branch => branch.DateUpdated" />
     <PropertyColumn Property="branch => branch.CreatedBy" />
     <PropertyColumn Property="branch => branch.UpdatedBy" />
 
     <TemplateColumn Context="branch">
+        <AuthorizeView Roles="Administrator">
         <a href="@($"branches/edit?id={branch.Id}")">Edit</a> |
         <a href="@($"branches/details?id={branch.Id}")">Details</a> |
         <a href="@($"branches/delete?id={branch.Id}")">Delete</a>
+        </AuthorizeView>
     </TemplateColumn>
 </QuickGrid>
 

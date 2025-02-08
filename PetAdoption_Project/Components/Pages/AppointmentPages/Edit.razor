@@ -32,20 +32,20 @@ else
                     <InputDate id="datein" @bind-Value="Appointment.DateIn" class="form-control" />
                     <ValidationMessage For="() => Appointment.DateIn" class="text-danger" />
                 </div>
-                <div class="mb-3" hidden>
+                <div class="mb-3" >
                     <label for="petid" class="form-label">PetId:</label>
-                    <InputNumber id="petid" @bind-Value="Appointment.PetId" class="form-control" />
+                    <InputNumber id="petid" @bind-Value="Appointment.PetId" class="form-control" readonly/>
                     <ValidationMessage For="() => Appointment.PetId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="petname" class="form-label">PetName:</label>
+                    <InputText id="petname" @bind-Value="Appointment.PetName" class="form-control" readonly />
+                    <ValidationMessage For="() => Appointment.PetName" class="text-danger" />
                 </div>
                 <div class="mb-3" hidden>
                     <label for="customerid" class="form-label">CustomerId:</label>
                     <InputNumber id="customerid" @bind-Value="Appointment.CustomerId" class="form-control" />
                     <ValidationMessage For="() => Appointment.CustomerId" class="text-danger" />
-                </div>
-                <div class="mb-3" hidden>
-                    <label for="datecreated" class="form-label">DateCreated:</label>
-                    <InputDate id="datecreated" @bind-Value="Appointment.DateCreated" class="form-control" />
-                    <ValidationMessage For="() => Appointment.DateCreated" class="text-danger" />
                 </div>
                 <div class="mb-3" hidden>
                     <label for="dateupdated" class="form-label">DateUpdated:</label>

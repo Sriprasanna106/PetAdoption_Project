@@ -19,7 +19,6 @@ namespace PetAdoption_Project.Configurations.Entities
                Email = "NumberOneCrate@gmail.com",
                Address = "Lenovo Street 45",
                ContactNumber = "94656485",
-               DateCreated = DateTime.Now,
                DateUpdated = DateTime.Now,
                CreatedBy = "System",
                UpdatedBy = "System"
@@ -31,7 +30,6 @@ namespace PetAdoption_Project.Configurations.Entities
                 Email = "NumberTwoPhone@gmail.com",
                 Address = "HP Street 216",
                 ContactNumber = "86364294",
-               DateCreated = DateTime.Now,
                DateUpdated = DateTime.Now,
                CreatedBy = "System",
                UpdatedBy = "System"

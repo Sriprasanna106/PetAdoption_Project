@@ -5,6 +5,7 @@
         public DateTime AppointmentDate { get; set; }
         public DateTime DateIn { get; set; }
         public int PetId { get; set; }
+        public string PetName { get; set; }
         public int CustomerId { get; set; }
 
     }

@@ -9,5 +9,6 @@
         public string? Colour { get; set; }
         public string? Gender { get; set; }
         public int OrganizationId { get; set; }
+        public bool IsAdopted { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetAdoption_Project.Data;
 
@@ -11,9 +12,11 @@ using PetAdoption_Project.Data;
 namespace PetAdoption_Project.Migrations
 {
     [DbContext(typeof(PetAdoption_ProjectContext))]
-    partial class PetAdoption_ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20250208090432_workordie")]
+    partial class workordie
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,7 +254,7 @@ namespace PetAdoption_Project.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1fc1a11b-c7cf-403d-ba29-ca05b99359a7",
+                            ConcurrencyStamp = "d5f07829-6e82-43f0-9077-bf273f064b66",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -259,9 +262,9 @@ namespace PetAdoption_Project.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELtCATrRqHzN+QHQ3dSOpf2i5q38ObcA2jIHUhHJYp1718EjkeRIKLYgo+O6hAFbBw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEORoSDjijxpMRVMBdgFDlmEYUE6SOXTtKDFYKCo5S2dpUBGY5Rtxod0EtM1rNw8adQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e44936ee-a34c-4bc8-9863-03b25a0b6ea0",
+                            SecurityStamp = "5c3d2cdb-0884-42ad-8b95-a9ba9c48b3b7",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -292,10 +295,6 @@ namespace PetAdoption_Project.Migrations
 
                     b.Property<int>("PetId")
                         .HasColumnType("int");
-
-                    b.Property<string>("PetName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -384,7 +383,7 @@ namespace PetAdoption_Project.Migrations
                             Address = "Lenovo Street 45",
                             ContactNumber = "94656485",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 8, 23, 0, 5, 458, DateTimeKind.Local).AddTicks(1131),
+                            DateUpdated = new DateTime(2025, 2, 8, 17, 4, 30, 983, DateTimeKind.Local).AddTicks(3280),
                             Email = "NumberOneCrate@gmail.com",
                             Name = "JohnPork",
                             UpdatedBy = "System"
@@ -395,7 +394,7 @@ namespace PetAdoption_Project.Migrations
                             Address = "HP Street 216",
                             ContactNumber = "86364294",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 8, 23, 0, 5, 458, DateTimeKind.Local).AddTicks(1134),
+                            DateUpdated = new DateTime(2025, 2, 8, 17, 4, 30, 983, DateTimeKind.Local).AddTicks(3284),
                             Email = "NumberTwoPhone@gmail.com",
                             Name = "Xodus",
                             UpdatedBy = "System"
@@ -469,7 +468,7 @@ namespace PetAdoption_Project.Migrations
                             Id = 1,
                             Address = "977 Grove Street",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 8, 23, 0, 5, 458, DateTimeKind.Local).AddTicks(963),
+                            DateUpdated = new DateTime(2025, 2, 8, 17, 4, 30, 983, DateTimeKind.Local).AddTicks(3105),
                             Name = "HYV Animal Centre",
                             UpdatedBy = "System"
                         });
@@ -501,9 +500,6 @@ namespace PetAdoption_Project.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAdopted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -525,9 +521,8 @@ namespace PetAdoption_Project.Migrations
                             Breed = "Dog",
                             Colour = "White",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 8, 23, 0, 5, 458, DateTimeKind.Local).AddTicks(1261),
+                            DateUpdated = new DateTime(2025, 2, 8, 17, 4, 30, 983, DateTimeKind.Local).AddTicks(3423),
                             Gender = "Unspecified",
-                            IsAdopted = false,
                             Name = "Kohaku",
                             OrganizationId = 1,
                             UpdatedBy = "System"
@@ -539,9 +534,8 @@ namespace PetAdoption_Project.Migrations
                             Breed = "Monitor Lizard",
                             Colour = "Brown",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 8, 23, 0, 5, 458, DateTimeKind.Local).AddTicks(1265),
+                            DateUpdated = new DateTime(2025, 2, 8, 17, 4, 30, 983, DateTimeKind.Local).AddTicks(3427),
                             Gender = "Male",
-                            IsAdopted = false,
                             Name = "Bean",
                             OrganizationId = 0,
                             UpdatedBy = "System"

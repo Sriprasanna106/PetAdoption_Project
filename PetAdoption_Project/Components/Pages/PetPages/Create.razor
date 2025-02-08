@@ -81,8 +81,8 @@
         //Set the userId to the CreatedBy and UpdatedBy fields.
         Pet.CreatedBy = userId;
         Pet.UpdatedBy = userId;
+        Pet.IsAdopted = false;
         //Set the DateCreated and DateUpdated fields to the current date and time.
-        Pet.DateCreated = DateTime.Now;
         Pet.DateUpdated = DateTime.Now;
         context.Pet.Add(Pet);
         await context.SaveChangesAsync();
