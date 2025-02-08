@@ -75,7 +75,7 @@ else
 @code {
     [SupplyParameterFromQuery]
     private int Id { get; set; }
-
+    public int? PetId { get; set; }
     [SupplyParameterFromForm]
     private Appointment? Appointment { get; set; }
 
@@ -96,6 +96,12 @@ else
     private async Task UpdateAppointment()
     {
         using var context = DbFactory.CreateDbContext();
+        var pet = await context.Pet.FindAsync(Appointment.PetId);
+        if (pet != null)
+        {
+            pet.IsAdopted = true;
+            context.Pet.Update(pet);
+        }
         context.Attach(Appointment!).State = EntityState.Modified;
 
         try

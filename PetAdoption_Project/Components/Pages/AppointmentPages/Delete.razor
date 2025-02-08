@@ -4,7 +4,7 @@
 @using PetAdoption_Project.Domain
 @inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
-@attribute [Authorize(Roles = "Administrator")]
+@attribute [Authorize(Roles = "User")]
 <PageTitle>Delete</PageTitle>
 
 <h1>Delete</h1>
@@ -59,13 +59,14 @@
 
 @code {
     private Appointment? appointment;
-
+    public int? PetId { get; set; }
     [SupplyParameterFromQuery]
     private int Id { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
+
         appointment = await context.Appointment.FirstOrDefaultAsync(m => m.Id == Id);
 
         if (appointment is null)
@@ -77,6 +78,12 @@
     private async Task DeleteAppointment()
     {
         using var context = DbFactory.CreateDbContext();
+        var pet = await context.Pet.FindAsync(appointment.PetId);
+        if (pet != null)
+        {
+            pet.IsAdopted = false;
+            context.Pet.Update(pet);
+        }
         context.Appointment.Remove(appointment!);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/appointments");
