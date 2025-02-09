@@ -24,6 +24,11 @@ else
                 <ValidationSummary role="alert"/>
                 <input type="hidden" name="Pet.Id" value="@Pet.Id" />
                 <div class="mb-3">
+                    <label for="id" class="form-label">Id:</label>
+                    <InputNumber id="id" @bind-Value="Pet.Id" class="form-control" readonly />
+                    <ValidationMessage For="() => Pet.Id" class="text-danger" />
+                </div>
+                <div class="mb-3">
                     <label for="name" class="form-label">Name:</label>
                     <InputText id="name" @bind-Value="Pet.Name" class="form-control" />
                     <ValidationMessage For="() => Pet.Name" class="text-danger" />
@@ -75,7 +80,7 @@ else
 }
 
 <div>
-    <a href="/pets">Back to List</a>
+    <a href="/branches">Back to List</a>
 </div>
 
 @code {
@@ -121,7 +126,7 @@ else
             }
         }
 
-        NavigationManager.NavigateTo("/pets");
+        NavigationManager.NavigateTo("/branches");
     }
     //Create userId string to store the user id, default value is "System".
     private string userId = "System";

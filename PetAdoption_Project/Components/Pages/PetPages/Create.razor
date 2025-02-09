@@ -68,7 +68,7 @@
 </div>
 
 <div>
-    <a href="/pets">Back to List</a>
+    <a href="/branches">Back to List</a>
 </div>
 
 @code {
@@ -86,7 +86,7 @@
         Pet.DateUpdated = DateTime.Now;
         context.Pet.Add(Pet);
         await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/pets");
+        NavigationManager.NavigateTo("/branches");
     }
 
 
