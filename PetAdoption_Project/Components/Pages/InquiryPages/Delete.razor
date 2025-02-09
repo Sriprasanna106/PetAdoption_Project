@@ -1,10 +1,9 @@
 ﻿@page "/inquiries/delete"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.EntityFrameworkCore
-@using Project.Domain
+@using PetAdoption_Project.Domain
 @inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
-@attribute [Authorize(Roles = "Administrator")]
 <PageTitle>Delete</PageTitle>
 
 <h1>Delete</h1>
@@ -21,10 +20,6 @@
         <dl class="row">
             <dt class="col-sm-2">Question</dt>
             <dd class="col-sm-10">@inquiry.Question</dd>
-        </dl>
-        <dl class="row">
-            <dt class="col-sm-2">CustomerId</dt>
-            <dd class="col-sm-10">@inquiry.CustomerId</dd>
         </dl>
         <dl class="row">
             <dt class="col-sm-2">DateUpdated</dt>

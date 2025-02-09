@@ -1,12 +1,13 @@
-﻿@page "/inquiries/edit"
+﻿@page "/inquiries/response"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.EntityFrameworkCore
 @using PetAdoption_Project.Domain
 @inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
-<PageTitle>Edit</PageTitle>
+@attribute [Authorize(Roles ="Administrator")]
+<PageTitle>Inquiry Reponse</PageTitle>
 
-<h1>Edit</h1>
+<h1>Inquiry Response</h1>
 
 <h2>Inquiry</h2>
 <hr />
@@ -20,27 +21,32 @@ else
         <div class="col-md-4">
             <EditForm method="post" Model="Inquiry" OnValidSubmit="UpdateInquiry" FormName="edit" Enhance>
                 <DataAnnotationsValidator />
-                <ValidationSummary role="alert"/>
+                <ValidationSummary role="alert" />
                 <input type="hidden" name="Inquiry.Id" value="@Inquiry.Id" />
                 <div class="mb-3">
                     <label for="question" class="form-label">Question:</label>
-                    <InputText id="question" @bind-Value="Inquiry.Question" class="form-control" />
+                    <InputText id="question" @bind-Value="Inquiry.Question" class="form-control" readonly />
                     <ValidationMessage For="() => Inquiry.Question" class="text-danger" />
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" hidden>
                     <label for="dateupdated" class="form-label">DateUpdated:</label>
                     <InputDate id="dateupdated" @bind-Value="Inquiry.DateUpdated" class="form-control" />
                     <ValidationMessage For="() => Inquiry.DateUpdated" class="text-danger" />
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" hidden>
                     <label for="createdby" class="form-label">CreatedBy:</label>
                     <InputText id="createdby" @bind-Value="Inquiry.CreatedBy" class="form-control" />
                     <ValidationMessage For="() => Inquiry.CreatedBy" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="updatedby" class="form-label">UpdatedBy:</label>
-                    <InputText id="updatedby" @bind-Value="Inquiry.UpdatedBy" class="form-control" />
+                    <InputText id="updatedby" @bind-Value="Inquiry.UpdatedBy" class="form-control" readonly />
                     <ValidationMessage For="() => Inquiry.UpdatedBy" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="response" class="form-label">Response:</label>
+                    <InputText id="response" @bind-Value="Inquiry.Response" class="form-control" />
+                    <ValidationMessage For="() => Inquiry.Response" class="text-danger" />
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
@@ -79,7 +85,8 @@ else
 
         try
         {
-            Inquiry.DateUpdated = DateTime.Now;
+            Inquiry.ResponseDate = DateTime.Now;
+            Inquiry.IsAnswered = true;
             await context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)

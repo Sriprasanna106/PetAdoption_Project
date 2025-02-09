@@ -8,7 +8,7 @@
         public string? Breed { get; set; }
         public string? Colour { get; set; }
         public string? Gender { get; set; }
-        public int OrganizationId { get; set; }
-        public bool IsAdopted { get; set; }
+        public int BranchId { get; set; }
+        public bool IsAdopted { get; set; } = false;
     }
 }

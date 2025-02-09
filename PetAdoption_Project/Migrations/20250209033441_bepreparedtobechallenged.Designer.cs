@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetAdoption_Project.Data;
 
@@ -11,9 +12,11 @@ using PetAdoption_Project.Data;
 namespace PetAdoption_Project.Migrations
 {
     [DbContext(typeof(PetAdoption_ProjectContext))]
-    partial class PetAdoption_ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20250209033441_bepreparedtobechallenged")]
+    partial class bepreparedtobechallenged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,7 +254,7 @@ namespace PetAdoption_Project.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "499a8da5-9828-462e-989c-7376aa5a529d",
+                            ConcurrencyStamp = "a1b1e2aa-3776-406d-8dba-ef088ba0d4e9",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -259,9 +262,9 @@ namespace PetAdoption_Project.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEENS3VWCtNwyea9Pul0+FwubpgEFjJGTkuaewN3lirksXYGGjcxzqfaiHRLySP56LQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEO6ycjzUX52qOrxsbnHQGhNKZMx8fVW8wjE/3er97aqUMUdp8oCe5/X9d16S/AnLA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5dcdd8a6-f574-4858-84e3-bccd70456fb2",
+                            SecurityStamp = "403907a9-5e71-454a-9585-abe3e156e0d2",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -423,9 +426,6 @@ namespace PetAdoption_Project.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int>("BranchId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Breed")
                         .HasColumnType("nvarchar(max)");
 
@@ -447,6 +447,9 @@ namespace PetAdoption_Project.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -459,28 +462,28 @@ namespace PetAdoption_Project.Migrations
                         {
                             Id = 1,
                             Age = 5,
-                            BranchId = 1,
                             Breed = "Dog",
                             Colour = "White",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 9, 11, 41, 37, 479, DateTimeKind.Local).AddTicks(1807),
+                            DateUpdated = new DateTime(2025, 2, 9, 11, 34, 40, 662, DateTimeKind.Local).AddTicks(5810),
                             Gender = "Unspecified",
                             IsAdopted = false,
                             Name = "Kohaku",
+                            OrganizationId = 1,
                             UpdatedBy = "System"
                         },
                         new
                         {
                             Id = 2,
                             Age = 1,
-                            BranchId = 1,
                             Breed = "Monitor Lizard",
                             Colour = "Brown",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 9, 11, 41, 37, 479, DateTimeKind.Local).AddTicks(1826),
+                            DateUpdated = new DateTime(2025, 2, 9, 11, 34, 40, 662, DateTimeKind.Local).AddTicks(5828),
                             Gender = "Male",
                             IsAdopted = false,
                             Name = "Bean",
+                            OrganizationId = 0,
                             UpdatedBy = "System"
                         });
                 });

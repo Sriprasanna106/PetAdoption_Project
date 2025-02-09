@@ -18,12 +18,9 @@
 
 <QuickGrid Class="table" Items="FilteredAppointments">
     <PropertyColumn Property="appointment => appointment.AppointmentDate" />
-  <!--  <PropertyColumn Property="appointment => appointment.DateIn" /> -->
     <PropertyColumn Property="appointment => appointment.PetId" />
     <PropertyColumn Property="appointment => appointment.PetName" />
-  <!--  <PropertyColumn Property="appointment => appointment.CustomerId" /> -->
     <PropertyColumn Property="appointment => appointment.DateUpdated" />
-    <PropertyColumn Property="appointment => appointment.CreatedBy" />
     <PropertyColumn Property="appointment => appointment.UpdatedBy" />
 
     <TemplateColumn Context="appointment">

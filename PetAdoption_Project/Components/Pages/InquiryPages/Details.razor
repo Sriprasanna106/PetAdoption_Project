@@ -1,6 +1,6 @@
 ﻿@page "/inquiries/details"
 @using Microsoft.EntityFrameworkCore
-@using Project.Domain
+@using PetAdoption_Project.Domain
 @inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
 
@@ -19,8 +19,6 @@
         <dl class="row">
             <dt class="col-sm-2">Question</dt>
             <dd class="col-sm-10">@inquiry.Question</dd>
-            <dt class="col-sm-2">CustomerId</dt>
-            <dd class="col-sm-10">@inquiry.CustomerId</dd>
             <dt class="col-sm-2">DateUpdated</dt>
             <dd class="col-sm-10">@inquiry.DateUpdated</dd>
             <dt class="col-sm-2">CreatedBy</dt>
