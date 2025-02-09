@@ -43,9 +43,18 @@
                 <ValidationMessage For="() => Pet.Gender" class="text-danger" /> 
             </div>
             <div class="mb-3">
-                <label for="branchid" class="form-label">BranchId:</label>
-                <InputNumber id="branchid" @bind-Value="Pet.BranchId" class="form-control" />
-                <ValidationMessage For="() => Pet.BranchId" class="text-danger" />
+                <label for="branchid" class="form-label">Branch:</label>
+                <InputSelect id="branchid" @bind-Value="Pet.BranchId" class="form-control" >
+                <option value="">--Select Branch --</option>
+                @if (Branches != null)
+                {
+                    foreach(var branch in Branches)
+                    {
+                        <option value="@branch.Id">@branch.Name</option>
+                    }
+                }
+                </InputSelect>
+
             </div>  
             <div class="mb-3" hidden>
                 <label for="dateupdated" class="form-label">DateUpdated:</label> 
@@ -74,6 +83,8 @@
 @code {
     [SupplyParameterFromForm]
     private Pet Pet { get; set; } = new();
+    private PetAdoption_ProjectContext context = default!;
+    private IList<Branch> Branches;
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddPet()
     {
@@ -97,6 +108,8 @@
     //Override the OnInitialized method to get the user id.
     protected override async void OnInitialized()
     {
+        context = DbFactory.CreateDbContext();
+        Branches = context.Branch.ToList();
         var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         // Get the userId claim

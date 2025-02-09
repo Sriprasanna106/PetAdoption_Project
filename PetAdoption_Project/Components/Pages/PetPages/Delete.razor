@@ -83,6 +83,6 @@
         using var context = DbFactory.CreateDbContext();
         context.Pet.Remove(pet!);
         await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/pets");
+        NavigationManager.NavigateTo("/branches");
     }
 }
