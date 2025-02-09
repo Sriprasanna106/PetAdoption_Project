@@ -1,0 +1,58 @@
+﻿@page "/testimonials/details"
+@using Microsoft.EntityFrameworkCore
+@using PetAdoption_Project.Domain
+@inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Testimonials</PageTitle>
+
+<h1>Testimonials</h1>
+
+<div>
+    <h2>Testimonials</h2>
+    <hr />
+    @if (testimonials is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Rating</dt>
+            <dd class="col-sm-10">@testimonials.Rating</dd>
+            <dt class="col-sm-2">Content</dt>
+            <dd class="col-sm-10">@testimonials.Content</dd>
+            <dt class="col-sm-2">PetId</dt>
+            <dd class="col-sm-10">@testimonials.PetId</dd>
+            <dt class="col-sm-2">DatePosted</dt>
+            <dd class="col-sm-10">@testimonials.DatePosted</dd>
+            <dt class="col-sm-2">DateUpdated</dt>
+            <dd class="col-sm-10">@testimonials.DateUpdated</dd>
+            <dt class="col-sm-2">CreatedBy</dt>
+            <dd class="col-sm-10">@testimonials.CreatedBy</dd>
+            <dt class="col-sm-2">UpdatedBy</dt>
+            <dd class="col-sm-10">@testimonials.UpdatedBy</dd>
+        </dl>
+        <div>
+            <a href="@($"/testimonials/edit?id={testimonials.Id}")">Edit</a> |
+            <a href="@($"/testimonials")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Testimonials? testimonials;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        testimonials = await context.Testimonials.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (testimonials is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

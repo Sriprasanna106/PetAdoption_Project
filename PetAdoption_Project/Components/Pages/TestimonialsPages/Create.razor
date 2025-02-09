@@ -1,0 +1,108 @@
+﻿@page "/testimonials/create"
+@using Microsoft.EntityFrameworkCore
+@using PetAdoption_Project.Data
+@using PetAdoption_Project.Domain
+@inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>Review</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Testimonials" OnValidSubmit="AddTestimonials" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert" />
+            <div class="mb-3">
+                <label for="breed" class="form-label">Breed:</label>
+                <InputSelect id="breed" @bind-Value="Testimonials.PetId" class="form-control">
+                    <option value="">--Select Pet Breed--</option>
+                    @if (Pets != null)
+                    {
+                        foreach (var pet in Pets)
+                        {
+                            <option value="@pet.Id">@pet.Breed</option>
+                        }
+                    }
+                </InputSelect>
+            </div>
+            <div class="mb-3">
+                <label for="rating" class="form-label">Rating:</label>
+                <InputNumber id="rating" @bind-Value="Testimonials.Rating" class="form-control" />
+                <ValidationMessage For="() => Testimonials.Rating" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Content:</label>
+                <InputText id="content" @bind-Value="Testimonials.Content" class="form-control" />
+                <ValidationMessage For="() => Testimonials.Content" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="dateposted" class="form-label">DatePosted:</label>
+                <InputDate id="dateposted" @bind-Value="Testimonials.DatePosted" class="form-control" />
+                <ValidationMessage For="() => Testimonials.DatePosted" class="text-danger" />
+            </div>
+            <div class="mb-3" hidden>
+                <label for="dateupdated" class="form-label">DateUpdated:</label>
+                <InputDate id="dateupdated" @bind-Value="Testimonials.DateUpdated" class="form-control" />
+                <ValidationMessage For="() => Testimonials.DateUpdated" class="text-danger" />
+            </div>
+            <div class="mb-3" hidden>
+                <label for="createdby" class="form-label">CreatedBy:</label>
+                <InputText id="createdby" @bind-Value="Testimonials.CreatedBy" class="form-control" />
+                <ValidationMessage For="() => Testimonials.CreatedBy" class="text-danger" />
+            </div>
+            <div class="mb-3" hidden>
+                <label for="updatedby" class="form-label">UpdatedBy:</label>
+                <InputText id="updatedby" @bind-Value="Testimonials.UpdatedBy" class="form-control" />
+                <ValidationMessage For="() => Testimonials.UpdatedBy" class="text-danger" />
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/">Back</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Testimonials Testimonials { get; set; } = new();
+    private PetAdoption_ProjectContext context = default!;
+    private IList<Pet> Pets;
+
+
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddTestimonials()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Testimonials.CreatedBy = userId;
+        Testimonials.UpdatedBy = userId;
+        context.Testimonials.Add(Testimonials);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/testimonials");
+    }
+
+    private string userId = "System";
+    //Inject the AuthenticationStateProvider to get the user id.
+    @inject AuthenticationStateProvider authenticationStateProvider
+    //Override the OnInitialized method to get the user id.
+    protected override async void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+        Pets = context.Pet.ToList();
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Get the userId claim
+        var userIdClaim = user.FindFirst("userId");
+        if (userIdClaim != null)
+        {
+            userId = userIdClaim.Value;
+        }
+    }
+
+}

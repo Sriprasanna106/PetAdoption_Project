@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetAdoption_Project.Data;
 
@@ -11,9 +12,11 @@ using PetAdoption_Project.Data;
 namespace PetAdoption_Project.Migrations
 {
     [DbContext(typeof(PetAdoption_ProjectContext))]
-    partial class PetAdoption_ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20250209151808_final-testimonials")]
+    partial class finaltestimonials
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,7 +254,7 @@ namespace PetAdoption_Project.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "66a39bdd-5afc-401e-b010-79144b7cb20b",
+                            ConcurrencyStamp = "49c47718-82b9-40e5-82f8-bc01449dec14",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -259,9 +262,9 @@ namespace PetAdoption_Project.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJU3dCYFrN3STDtRorc8B9tI9wjEandrNwFIwx/4DJbz8Ae3tI9nPtr2dJ9W/or18A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEebdGg7Pjm8ByoQqHNBoRfBK7kjd2RRMdz1rJTLxZ/wKblp4Q4P9B6P6PHdNEfozw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "df11b227-6860-4320-bb51-b1a648b8f0d3",
+                            SecurityStamp = "26f85ede-9913-4301-bcd6-0d2c6f8d0d08",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -463,7 +466,7 @@ namespace PetAdoption_Project.Migrations
                             Breed = "Dog",
                             Colour = "White",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 9, 23, 19, 8, 957, DateTimeKind.Local).AddTicks(3699),
+                            DateUpdated = new DateTime(2025, 2, 9, 23, 18, 7, 61, DateTimeKind.Local).AddTicks(1657),
                             Gender = "Unspecified",
                             IsAdopted = false,
                             Name = "Kohaku",
@@ -477,49 +480,12 @@ namespace PetAdoption_Project.Migrations
                             Breed = "Monitor Lizard",
                             Colour = "Brown",
                             CreatedBy = "System",
-                            DateUpdated = new DateTime(2025, 2, 9, 23, 19, 8, 957, DateTimeKind.Local).AddTicks(3714),
+                            DateUpdated = new DateTime(2025, 2, 9, 23, 18, 7, 61, DateTimeKind.Local).AddTicks(1673),
                             Gender = "Male",
                             IsAdopted = false,
                             Name = "Bean",
                             UpdatedBy = "System"
                         });
-                });
-
-            modelBuilder.Entity("PetAdoption_Project.Domain.Testimonials", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Breed")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DatePosted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PetId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Testimonials");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

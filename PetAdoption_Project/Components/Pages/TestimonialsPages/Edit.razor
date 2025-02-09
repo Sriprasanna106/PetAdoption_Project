@@ -1,0 +1,128 @@
+﻿@page "/testimonials/edit"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using PetAdoption_Project.Domain
+@inject IDbContextFactory<PetAdoption_Project.Data.PetAdoption_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = "Administrator")]
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Testimonials</h2>
+<hr />
+@if (Testimonials is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Testimonials" OnValidSubmit="UpdateTestimonials" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert" />
+                <input type="hidden" name="Testimonials.Id" value="@Testimonials.Id" />
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating:</label>
+                    <InputNumber id="rating" @bind-Value="Testimonials.Rating" class="form-control" />
+                    <ValidationMessage For="() => Testimonials.Rating" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="petid" class="form-label">Breed:</label>
+                    <InputNumber id="petid" @bind-Value="Testimonials.PetId" class="form-control" />
+                    <ValidationMessage For="() => Testimonials.PetId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label">Content:</label>
+                    <InputText id="content" @bind-Value="Testimonials.Content" class="form-control" />
+                    <ValidationMessage For="() => Testimonials.Content" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dateposted class="form-label">DatePosted:</label>
+                    <InputDate id="dateposted" @bind-Value="Testimonials.DatePosted" class="form-control" />
+                    <ValidationMessage For="() => Testimonials.DatePosted" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dateupdated" class="form-label">DateUpdated:</label>
+                    <InputDate id="dateupdated" @bind-Value="Testimonials.DateUpdated" class="form-control" />
+                    <ValidationMessage For="() => Testimonials.DateUpdated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="createdby" class="form-label">CreatedBy:</label>
+                    <InputText id="createdby" @bind-Value="Testimonials.CreatedBy" class="form-control" />
+                    <ValidationMessage For="() => Testimonials.CreatedBy" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="updatedby" class="form-label">UpdatedBy:</label>
+                    <InputText id="updatedby" @bind-Value="Testimonials.UpdatedBy" class="form-control" />
+                    <ValidationMessage For="() => Testimonials.UpdatedBy" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/testimonials">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Testimonials? Testimonials { get; set; }
+
+    private string userId = "System";
+    //Inject the AuthenticationStateProvider to get the user id.
+    @inject AuthenticationStateProvider authenticationStateProvider
+    //Override the OnInitialized method to get the user id.
+    protected override async void OnInitialized()
+    {
+        var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        // Get the userId claim
+        var userIdClaim = user.FindFirst("userId");
+        if (userIdClaim != null)
+        {
+            userId = userIdClaim.Value;
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateTestimonials()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Testimonials!).State = EntityState.Modified;
+
+        try
+        {
+            Testimonials.DatePosted = DateTime.Now;
+            Testimonials.CreatedBy = userId;
+            Testimonials.UpdatedBy = userId;
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!TestimonialsExists(Testimonials!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/testimonials");
+    }
+
+    private bool TestimonialsExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Testimonials.Any(e => e.Id == id);
+    }
+}

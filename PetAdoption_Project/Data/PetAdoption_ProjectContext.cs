@@ -12,6 +12,7 @@ namespace PetAdoption_Project.Data
         public DbSet<PetAdoption_Project.Domain.Donation> Donation { get; set; } = default!;
         public DbSet<PetAdoption_Project.Domain.Pet> Pet { get; set; } = default!;
         public DbSet<PetAdoption_Project.Domain.Inquiry> Inquiry { get; set; } = default!;
+        public DbSet<PetAdoption_Project.Domain.Testimonials> Testimonials { get; set; } = default!;
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
